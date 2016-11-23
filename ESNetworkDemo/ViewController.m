@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import "ESBaseRequest.h"
 
+#import "HomeSectionIndexRequest.h"
+
 @interface ViewController ()
 
 @property (strong, nonatomic) ESBaseRequest *request;
@@ -20,6 +22,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    
+    [ESRequestHandler sharedInstance].baseURL = @"http://test.api.d2cmall.com";
+    
+    
+    [[HomeSectionIndexRequest request] startWithCompletionBlock:^(__kindof ESRequest *request) {
+        NSLog(@"\n%@", request.responseObject);
+    }];
     
 }
 

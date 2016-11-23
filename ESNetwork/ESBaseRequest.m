@@ -37,6 +37,7 @@
 }
 
 - (void)willStart {
+    [super willStart];
     [_loadingView showAnimated:YES];
 }
 

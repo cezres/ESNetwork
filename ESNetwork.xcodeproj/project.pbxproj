@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E45CA971DE5DFB600CAD6BB /* HomeSectionIndexRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E45CA961DE5DFB600CAD6BB /* HomeSectionIndexRequest.m */; };
 		6E6E986F1DD1EFFE00429BDB /* ESNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6E986D1DD1EFFE00429BDB /* ESNetwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E6E98771DD1F05A00429BDB /* ESHTTPRequestSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6E98751DD1F05A00429BDB /* ESHTTPRequestSerializer.h */; };
 		6E6E98781DD1F05A00429BDB /* ESHTTPRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6E98761DD1F05A00429BDB /* ESHTTPRequestSerializer.m */; };
@@ -58,6 +59,8 @@
 /* Begin PBXFileReference section */
 		1A39AC480CB66BAE2A8CC69E /* Pods-ESNetwork.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESNetwork.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ESNetwork/Pods-ESNetwork.debug.xcconfig"; sourceTree = "<group>"; };
 		4EB7D1F6941712148845E872 /* libPods-ESNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ESNetwork.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E45CA951DE5DFB600CAD6BB /* HomeSectionIndexRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeSectionIndexRequest.h; sourceTree = "<group>"; };
+		6E45CA961DE5DFB600CAD6BB /* HomeSectionIndexRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeSectionIndexRequest.m; sourceTree = "<group>"; };
 		6E6E986A1DD1EFFE00429BDB /* ESNetwork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ESNetwork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E6E986D1DD1EFFE00429BDB /* ESNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESNetwork.h; sourceTree = "<group>"; };
 		6E6E986E1DD1EFFE00429BDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -150,6 +153,8 @@
 		6E6E98921DD1F39C00429BDB /* ESNetworkDemo */ = {
 			isa = PBXGroup;
 			children = (
+				6E45CA951DE5DFB600CAD6BB /* HomeSectionIndexRequest.h */,
+				6E45CA961DE5DFB600CAD6BB /* HomeSectionIndexRequest.m */,
 				6E6E98961DD1F39C00429BDB /* AppDelegate.h */,
 				6E6E98971DD1F39C00429BDB /* AppDelegate.m */,
 				6E6E98991DD1F39C00429BDB /* ViewController.h */,
@@ -361,6 +366,7 @@
 				6E6E989B1DD1F39C00429BDB /* ViewController.m in Sources */,
 				6E6E98981DD1F39C00429BDB /* AppDelegate.m in Sources */,
 				6E6E98951DD1F39C00429BDB /* main.m in Sources */,
+				6E45CA971DE5DFB600CAD6BB /* HomeSectionIndexRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,6 +594,7 @@
 				6E6E98A71DD1F39D00429BDB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

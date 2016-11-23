@@ -44,7 +44,7 @@
 
 - (NSURLSessionDataTask *)handleRequestWithURLString:(NSString *)URLString Method:(ESHTTPMethod)method parameters:(id)parameters delegate:(id<ESRequestHandlerDelegate>)delegate {
     if (![URLString hasPrefix:@"http"]) {
-        URLString = [_baseURLString stringByAppendingPathComponent:URLString];
+        URLString = [_baseURL stringByAppendingPathComponent:URLString];
     }
     if (method == ESHTTPMethodGet) {
         return [_HTTPSessionManager GET:URLString parameters:parameters progress:NULL success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

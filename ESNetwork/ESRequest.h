@@ -53,6 +53,10 @@ typedef void (^ESRequestBlock)(__kindof ESRequest *request);
  *  缓存-标识  MD5(URLString+parameters)
  */
 @property (copy, nonatomic, readonly) NSString *identifier;
+/**
+ 数据从缓存中读取
+ */
+@property (assign, nonatomic, readonly, getter=isDataFromCache) BOOL dataFromCache;
 
 
 #pragma mark Response
@@ -81,12 +85,10 @@ typedef void (^ESRequestBlock)(__kindof ESRequest *request);
 
 - (__kindof ESRequest *)start;
 
-- (__kindof ESRequest *)pause;
-
 - (__kindof ESRequest *)stop;
 
 
-- (void)willStart;
+- (void)willStart __attribute__((objc_requires_super));
 
 - (void)completed __attribute__((objc_requires_super));
 

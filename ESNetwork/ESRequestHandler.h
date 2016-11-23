@@ -31,13 +31,17 @@ typedef NS_ENUM(NSInteger, ESHTTPMethod) {
 
 @interface ESRequestHandler : NSObject
 
-
 /**
  *  请求超时时间
  */
 @property (assign, nonatomic) NSTimeInterval timeoutInterval;
 
-@property (strong, nonatomic) NSString *baseURLString;
+@property (strong, nonatomic) NSString *baseURL;
+
+
+@property (strong, nonatomic) NSDictionary *builtinParameters;
+
+@property (strong, nonatomic) NSDictionary *builtinHeaders;
 
 
 + (instancetype)sharedInstance;

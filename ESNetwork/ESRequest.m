@@ -13,6 +13,8 @@ NSString * __MD5(NSString *str);
 
 @interface ESRequest ()
 
+@property (assign, nonatomic) BOOL dataFromCache;
+
 @end
 
 @implementation ESRequest
@@ -34,19 +36,8 @@ NSString * __MD5(NSString *str);
 - (__kindof ESRequest *)start {
     [self willStart];
     
-    if (self.state == NSURLSessionTaskStateSuspended) {
-        [_task resume];
-        return self;
-    }
-    
-    _responseObject = NULL;
-    _error = NULL;
-    _task = NULL;
-    
-    if (!_mustFromNetwork && [self readCache]) {
-        [self.delegate requestCompletion:self];
-        _completionBlock ? _completionBlock(self) : NULL;
-        _completionBlock = NULL;
+    if ([self readCache]) {
+        [self completed];
     }
     else {
         [self dynamicURLStringWithCallback:^(NSString *URLString, id parameters) {
@@ -56,14 +47,7 @@ NSString * __MD5(NSString *str);
     return self;
 }
 
-- (ESRequest *)pause {
-    [self.task suspend];
-    return self;
-}
-
 - (ESRequest *)stop {
-    _completionBlock = NULL;
-    _delegate = NULL;
     [self.task cancel];
     return self;
 }
@@ -74,12 +58,14 @@ NSString * __MD5(NSString *str);
 
 
 - (void)willStart {
-    
+    _dataFromCache = NULL;
+    _responseObject = NULL;
+    _error = NULL;
+    _task = NULL;
 }
 
 - (void)completed {
     [self storeCache];
-    
     [self.delegate requestCompletion:self];
     !_completionBlock ?: _completionBlock(self);
     _completionBlock = NULL;
@@ -111,6 +97,9 @@ NSString * __MD5(NSString *str);
 }
 
 - (void)storeCache {
+    if (_dataFromCache) {
+        return;
+    }
     if (self.cacheTimeoutInterval <= 0 || !_responseObject) {
         return;
     }
@@ -118,12 +107,16 @@ NSString * __MD5(NSString *str);
 }
 
 - (BOOL)readCache {
+    if (_mustFromNetwork) {
+        return NO;
+    }
     if (self.cacheTimeoutInterval <= 0) {
         return NO;
     }
     BOOL isTimeout;
     id cachedJSONObject = [[ESRequestCache sharedInstance] cachedJSONObjectForRequest:self isTimeout:&isTimeout];
     if (cachedJSONObject && !isTimeout) {
+        _dataFromCache = YES;
         _responseObject = cachedJSONObject;
         return YES;
     }
