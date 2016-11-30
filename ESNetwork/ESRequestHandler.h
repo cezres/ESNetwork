@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, ESHTTPMethod) {
  *  @param responseObject <#responseObject description#>
  *  @param error          <#error description#>
  */
-- (void)requestHandleCompletionResponseObject:(id)responseObject error:(NSError *)error;
+- (void)requestHandleCompletionResponse:(NSHTTPURLResponse *)response responseObject:(id)responseObject error:(NSError *)error;
 
 @end
 
@@ -36,20 +36,16 @@ typedef NS_ENUM(NSInteger, ESHTTPMethod) {
  */
 @property (assign, nonatomic) NSTimeInterval timeoutInterval;
 
-@property (strong, nonatomic) NSString *baseURL;
+@property (strong, nonatomic) NSURL *baseURL;
 
-
-@property (strong, nonatomic) NSDictionary *builtinParameters;
-
-@property (strong, nonatomic) NSDictionary *builtinHeaders;
-
+@property (strong, nonatomic, readonly) NSDictionary<NSString *, id> *builtinParameters;
+@property (strong, nonatomic, readonly) NSDictionary<NSString *, NSString *> *builtinHeaders;
 
 + (instancetype)sharedInstance;
 
 - (NSURLSessionDataTask *)handleRequest:(ESRequest *)request;
 
-- (NSURLSessionDataTask *)handleRequestWithURLString:(NSString *)URLString Method:(ESHTTPMethod)method parameters:(id)parameters delegate:(id<ESRequestHandlerDelegate>)delegate;
-
-
+- (void)setValue:(NSString *)value forBuiltinParameterField:(NSString *)field;
+- (void)setValue:(NSString *)value forBuiltinHeaderField:(NSString *)field;
 
 @end

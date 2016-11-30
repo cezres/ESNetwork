@@ -24,12 +24,21 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     
-    [ESRequestHandler sharedInstance].baseURL = @"http://test.api.d2cmall.com";
+    [ESRequestHandler sharedInstance].baseURL = [NSURL URLWithString:@"http://test.api.d2cmall.com"];
+    [[ESRequestHandler sharedInstance] setValue:@"iOS" forBuiltinParameterField:@"device"];
     
-    
-    [[HomeSectionIndexRequest request] startWithCompletionBlock:^(__kindof ESRequest *request) {
-        NSLog(@"\n%@", request.responseObject);
+    ESBaseRequest *request = [ESBaseRequest request];
+    request.URLString = @"/product/{id}";
+    request.parameters = @{@"id": @1008611};
+    [request startWithCompletionBlock:^(__kindof ESRequest *request) {
+        
     }];
+    
+//    [[HomeSectionIndexRequest request] startWithCompletionBlock:^(__kindof ESRequest *request) {
+//        NSLog(@"\n%@", request.responseObject);
+//    }];
+    
+    
     
 }
 

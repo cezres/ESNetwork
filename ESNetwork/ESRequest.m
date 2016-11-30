@@ -19,6 +19,19 @@ NSString * __MD5(NSString *str);
 
 @implementation ESRequest
 
+- (instancetype)init {
+    if (self = [super init]) {
+        _builtinHeaderEnable = YES;
+        _builtinParameterEnable = YES;
+        _priority = ESRequestPriorityDefault;
+    }
+    return self;
+}
+
+- (void)dealloc {
+    NSLog(@"%s", __FUNCTION__);
+}
+
 + (instancetype)request {
     return [[self alloc] init];
 }
@@ -40,9 +53,10 @@ NSString * __MD5(NSString *str);
         [self completed];
     }
     else {
-        [self dynamicURLStringWithCallback:^(NSString *URLString, id parameters) {
-            _task = [[ESRequestHandler sharedInstance] handleRequestWithURLString:URLString Method:self.method parameters:parameters delegate:self];
-        }];
+//        [self dynamicURLStringWithCallback:^(NSString *URLString, id parameters) {
+//            _task = [[ESRequestHandler sharedInstance] handleRequestWithURLString:URLString Method:self.method parameters:parameters delegate:self];
+//        }];
+        _task = [[ESRequestHandler sharedInstance] handleRequest:self];
     }
     return self;
 }
@@ -59,6 +73,7 @@ NSString * __MD5(NSString *str);
 
 - (void)willStart {
     _dataFromCache = NULL;
+    _response = NULL;
     _responseObject = NULL;
     _error = NULL;
     _task = NULL;
@@ -72,14 +87,12 @@ NSString * __MD5(NSString *str);
 }
 
 #pragma mark - RequestHandlerDelegate
-
-- (void)requestHandleCompletionResponseObject:(id)responseObject error:(NSError *)error {
+- (void)requestHandleCompletionResponse:(NSHTTPURLResponse *)response responseObject:(id)responseObject error:(NSError *)error {
+    _response = response;
     _responseObject = responseObject;
     _error = error;
     [self completed];
 }
-
-
 
 #pragma mark - Cache
 

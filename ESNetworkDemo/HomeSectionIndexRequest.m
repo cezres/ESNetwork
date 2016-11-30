@@ -14,8 +14,8 @@
     return @"/v2/api/page/index/MAIN";
 }
 
-- (NSTimeInterval)cacheTimeoutInterval {
-    return 60 * 30;
-}
+//- (NSTimeInterval)cacheTimeoutInterval {
+//    return 60 * 30;
+//}
 
 @end

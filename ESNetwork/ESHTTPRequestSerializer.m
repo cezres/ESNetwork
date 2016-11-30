@@ -21,14 +21,14 @@
 }
 
 - (NSString *)queryStringSerialization:(NSURLRequest *)request parameters:(id)parameters error:(NSError *__autoreleasing *)error {
-    NSArray* (^parametersToArray)(NSDictionary *dictionary) = ^(NSDictionary *dictionary) {
+    NSArray* (^DictToArray)(NSDictionary *dictionary) = ^(NSDictionary *dictionary) {
         NSMutableArray *array = [NSMutableArray arrayWithCapacity:dictionary.count];
         for (NSObject *key in dictionary.allKeys) {
             [array addObject:[NSString stringWithFormat:@"%@=%@", key, [dictionary objectForKey:key]]];
         }
         return [NSArray arrayWithArray:array];
     };
-    NSString *(^parametersToString)(NSArray *array) = ^(NSArray *array) {
+    NSString *(^ArrayToString)(NSArray *array) = ^(NSArray *array) {
         return [array componentsJoinedByString:@"&"];
     };
     
@@ -37,14 +37,14 @@
         if (dict.count == 0) {
             return NULL;
         }
-        return parametersToString(parametersToArray(parameters));
+        return ArrayToString(DictToArray(parameters));
     }
     else if ([parameters isKindOfClass:[NSArray class]]) {
         NSArray *array = parameters;
         if (array.count == 0) {
             return NULL;
         }
-        return parametersToString(parameters);
+        return ArrayToString(parameters);
     }
     else if ([parameters isKindOfClass:[NSString class]]) {
         return parameters;

@@ -10,6 +10,14 @@
 #import "ESRequestCache.h"
 #import "ESRequestHandler.h"
 
+
+/// 请求优先级
+typedef NS_ENUM(NSInteger, ESRequestPriority) {
+    ESRequestPriorityDefault,
+    ESRequestPriorityLow,
+    ESRequestPriorityHigh
+};
+
 @class ESRequest;
 
 typedef void (^ESRequestBlock)(__kindof ESRequest *request);
@@ -29,14 +37,30 @@ typedef void (^ESRequestBlock)(__kindof ESRequest *request);
 <ESRequestHandlerDelegate>
 
 @property (copy, nonatomic) NSString *URLString;
-@property (assign, nonatomic) ESHTTPMethod method;
 @property (copy, nonatomic) NSObject *parameters;
+@property (assign, nonatomic) ESHTTPMethod method;
+
+
+/**
+ 请求优先级，默认ESRequestPriorityDefault
+ */
+@property (assign, nonatomic) ESRequestPriority priority;
+
+
+/**
+ 内置的请求头是否有效，默认YES
+ */
+@property (assign, nonatomic) BOOL builtinHeaderEnable;
+/**
+ 内置的参数舒服有效，默认YES
+ */
+@property (assign, nonatomic) BOOL builtinParameterEnable;
 
 
 @property (assign, nonatomic) BOOL mustFromNetwork;
 @property (readonly) NSURLSessionTaskState state;
 @property (assign, nonatomic) NSInteger tag;
-@property (strong, nonatomic) NSURLSessionTask *task;
+@property (strong, nonatomic, readonly) NSURLSessionTask *task;
 
 
 #pragma mark Cache
@@ -60,9 +84,8 @@ typedef void (^ESRequestBlock)(__kindof ESRequest *request);
 
 
 #pragma mark Response
-
+@property (strong, nonatomic, readonly) NSHTTPURLResponse *response;
 @property (strong, nonatomic, readonly) id responseObject;
-
 @property (strong, nonatomic, readonly) NSError *error;
 
 
