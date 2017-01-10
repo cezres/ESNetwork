@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6E1E08071DED81DA00C61DEE /* ESBaseRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E1E08051DED81DA00C61DEE /* ESBaseRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E1E08081DED81DA00C61DEE /* ESBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1E08061DED81DA00C61DEE /* ESBaseRequest.m */; };
+		6E2870F71E24C7770026E7BD /* ESBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2870F51E24C7770026E7BD /* ESBaseRequest.m */; };
+		6E2870F81E24C7770026E7BD /* ESBaseRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E2870F61E24C7770026E7BD /* ESBaseRequest.h */; };
 		6E45CA971DE5DFB600CAD6BB /* HomeSectionIndexRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E45CA961DE5DFB600CAD6BB /* HomeSectionIndexRequest.m */; };
 		6E6E986F1DD1EFFE00429BDB /* ESNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6E986D1DD1EFFE00429BDB /* ESNetwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E6E98771DD1F05A00429BDB /* ESHTTPRequestSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6E98751DD1F05A00429BDB /* ESHTTPRequestSerializer.h */; };
@@ -59,8 +59,8 @@
 /* Begin PBXFileReference section */
 		1A39AC480CB66BAE2A8CC69E /* Pods-ESNetwork.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESNetwork.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ESNetwork/Pods-ESNetwork.debug.xcconfig"; sourceTree = "<group>"; };
 		4EB7D1F6941712148845E872 /* libPods-ESNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ESNetwork.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E1E08051DED81DA00C61DEE /* ESBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESBaseRequest.h; sourceTree = "<group>"; };
-		6E1E08061DED81DA00C61DEE /* ESBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESBaseRequest.m; sourceTree = "<group>"; };
+		6E2870F51E24C7770026E7BD /* ESBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESBaseRequest.m; sourceTree = "<group>"; };
+		6E2870F61E24C7770026E7BD /* ESBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESBaseRequest.h; sourceTree = "<group>"; };
 		6E45CA951DE5DFB600CAD6BB /* HomeSectionIndexRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeSectionIndexRequest.h; sourceTree = "<group>"; };
 		6E45CA961DE5DFB600CAD6BB /* HomeSectionIndexRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeSectionIndexRequest.m; sourceTree = "<group>"; };
 		6E6E986A1DD1EFFE00429BDB /* ESNetwork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ESNetwork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,15 +109,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6E1E08041DED81BF00C61DEE /* D2C */ = {
-			isa = PBXGroup;
-			children = (
-				6E1E08051DED81DA00C61DEE /* ESBaseRequest.h */,
-				6E1E08061DED81DA00C61DEE /* ESBaseRequest.m */,
-			);
-			path = D2C;
-			sourceTree = "<group>";
-		};
 		6E6E98601DD1EFFE00429BDB = {
 			isa = PBXGroup;
 			children = (
@@ -153,7 +144,8 @@
 				6E6E98821DD1F08600429BDB /* ESRequestCache.m */,
 				6E6E98851DD1F09100429BDB /* ESRequest.h */,
 				6E6E98861DD1F09100429BDB /* ESRequest.m */,
-				6E1E08041DED81BF00C61DEE /* D2C */,
+				6E2870F61E24C7770026E7BD /* ESBaseRequest.h */,
+				6E2870F51E24C7770026E7BD /* ESBaseRequest.m */,
 			);
 			path = ESNetwork;
 			sourceTree = "<group>";
@@ -208,9 +200,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E2870F81E24C7770026E7BD /* ESBaseRequest.h in Headers */,
 				6E6E98871DD1F09100429BDB /* ESRequest.h in Headers */,
 				6E6E98831DD1F08600429BDB /* ESRequestCache.h in Headers */,
-				6E1E08071DED81DA00C61DEE /* ESBaseRequest.h in Headers */,
 				6E6E987F1DD1F07C00429BDB /* ESRequestHandler.h in Headers */,
 				6E6E986F1DD1EFFE00429BDB /* ESNetwork.h in Headers */,
 				6E6E98771DD1F05A00429BDB /* ESHTTPRequestSerializer.h in Headers */,
@@ -360,7 +352,7 @@
 			files = (
 				6E6E98841DD1F08600429BDB /* ESRequestCache.m in Sources */,
 				6E6E98801DD1F07C00429BDB /* ESRequestHandler.m in Sources */,
-				6E1E08081DED81DA00C61DEE /* ESBaseRequest.m in Sources */,
+				6E2870F71E24C7770026E7BD /* ESBaseRequest.m in Sources */,
 				6E6E987C1DD1F06900429BDB /* ESHTTPResponseSerializer.m in Sources */,
 				6E6E98881DD1F09100429BDB /* ESRequest.m in Sources */,
 				6E6E98781DD1F05A00429BDB /* ESHTTPRequestSerializer.m in Sources */,

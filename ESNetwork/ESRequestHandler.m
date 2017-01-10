@@ -13,9 +13,6 @@
 #import "ESRequest.h"
 
 
-NSString *HTTPMethod(ESHTTPMethod method);
-void pretreatmentRequest(NSString **inoutURLString, NSDictionary **inoutParameters);
-
 @interface ESRequestHandler ()
 
 @property(strong, nonatomic, nonnull) AFHTTPSessionManager *HTTPSessionManager;
@@ -47,7 +44,7 @@ void pretreatmentRequest(NSString **inoutURLString, NSDictionary **inoutParamete
     
     NSString *URLString = request.URLString;
     NSObject *parameters = request.parameters;
-    pretreatmentRequest(&URLString, &parameters);
+    [self pretreatmentRequest:&URLString inoutParameters:&parameters];
     URLString = [[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString];
     
     /// 添加内置的请求参数
@@ -56,7 +53,7 @@ void pretreatmentRequest(NSString **inoutURLString, NSDictionary **inoutParamete
     }
     
     NSError *serializationError = nil;
-    NSMutableURLRequest *urlRequest = [self.HTTPSessionManager.requestSerializer requestWithMethod:HTTPMethod(request.method) URLString:URLString parameters:parameters error:&serializationError];
+    NSMutableURLRequest *urlRequest = [self.HTTPSessionManager.requestSerializer requestWithMethod:[self HTTPMethod:request.method] URLString:URLString parameters:parameters error:&serializationError];
     if (serializationError) {
         [request requestHandleCompletionResponse:NULL responseObject:NULL error:serializationError];
         return nil;
@@ -111,6 +108,7 @@ void pretreatmentRequest(NSString **inoutURLString, NSDictionary **inoutParamete
 }
 
 #pragma mark help
+
 - (void)appendBuiltinHeadersForRequest:(NSMutableURLRequest *)request {
     [self.builtinHeaders enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
         if (![request valueForHTTPHeaderField:key]) {
@@ -165,24 +163,18 @@ void pretreatmentRequest(NSString **inoutURLString, NSDictionary **inoutParamete
     return parameters;
 }
 
-
-@end
-
-NSString *HTTPMethod(ESHTTPMethod method) {
+- (NSString *)HTTPMethod:(ESHTTPMethod)method {
     NSString *result;
-    
     if (method == ESHTTPMethodGet) {
         result = @"GET";
     }
     else if (method == ESHTTPMethodPost) {
         result = @"POST";
     }
-    
     return result;
 }
 
-
-void pretreatmentRequest(NSString **inoutURLString, NSDictionary **inoutParameters) {
+- (void)pretreatmentRequest:(NSString **)inoutURLString inoutParameters:(NSDictionary **)inoutParameters {
     if (![*inoutParameters isKindOfClass:[NSDictionary class]]) {
         return;
     }
@@ -236,3 +228,8 @@ void pretreatmentRequest(NSString **inoutURLString, NSDictionary **inoutParamete
     *inoutURLString = URLString;
     *inoutParameters = [parameters copy];
 }
+
+
+@end
+
+

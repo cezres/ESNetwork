@@ -27,12 +27,19 @@
     [ESRequestHandler sharedInstance].baseURL = [NSURL URLWithString:@"http://test.api.d2cmall.com"];
     [[ESRequestHandler sharedInstance] setValue:@"iOS" forBuiltinParameterField:@"device"];
     
+    
     ESBaseRequest *request = [ESBaseRequest request];
     request.URLString = @"/product/{id}";
     request.parameters = @{@"id": @1008611};
     [request startWithCompletionBlock:^(__kindof ESRequest *request) {
-        
+        if (request.error) {
+            NSLog(@"%@", request.error.description);
+        }
+        else {
+            NSLog(@"\n%@", request.responseObject);
+        }
     }];
+    
     
 //    [[HomeSectionIndexRequest request] startWithCompletionBlock:^(__kindof ESRequest *request) {
 //        NSLog(@"\n%@", request.responseObject);

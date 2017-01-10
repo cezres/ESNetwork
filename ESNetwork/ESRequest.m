@@ -13,7 +13,6 @@ NSString * __MD5(NSString *str);
 
 @interface ESRequest ()
 
-@property (assign, nonatomic) BOOL dataFromCache;
 
 @end
 
@@ -53,9 +52,6 @@ NSString * __MD5(NSString *str);
         [self completed];
     }
     else {
-//        [self dynamicURLStringWithCallback:^(NSString *URLString, id parameters) {
-//            _task = [[ESRequestHandler sharedInstance] handleRequestWithURLString:URLString Method:self.method parameters:parameters delegate:self];
-//        }];
         _task = [[ESRequestHandler sharedInstance] handleRequest:self];
     }
     return self;
@@ -72,7 +68,7 @@ NSString * __MD5(NSString *str);
 
 
 - (void)willStart {
-    _dataFromCache = NULL;
+    _dataFromCache = NO;
     _response = NULL;
     _responseObject = NULL;
     _error = NULL;
@@ -136,69 +132,6 @@ NSString * __MD5(NSString *str);
     else {
         return NO;
     }
-}
-
-
-
-#pragma mark - tool
-
-- (void)dynamicURLStringWithCallback:(void (^)(NSString *URLString, id parameters))callback {
-    if ([self.URLString rangeOfString:@"##"].length <= 0) {
-        callback? callback(self.URLString, self.parameters) : NULL;
-        return;
-    }
-    
-    if (![self.parameters isKindOfClass:[NSDictionary class]]) {
-        callback? callback(self.URLString, self.parameters) : NULL;
-        return;
-    }
-    
-    NSDictionary *parameters = (NSDictionary *)self.parameters;
-    if ([parameters count] == 0) {
-        callback? callback(self.URLString, self.parameters) : NULL;
-        return;
-    }
-    
-    NSMutableArray<NSString *> *parameterNames = [NSMutableArray array];
-    NSRange range = NSMakeRange(0, self.URLString.length);
-    NSInteger start = -1;
-    
-    while (YES) {
-        range = [self.URLString rangeOfString:@"##" options:NSCaseInsensitiveSearch range:range];
-        if (range.length > 0) {
-            if (start == -1) {
-                start = range.location + range.length;
-            }
-            else {
-                [parameterNames addObject:[self.URLString substringWithRange:NSMakeRange(start, range.location - start)]];
-                start = -1;
-            }
-            range.location = range.location + range.length;
-            range.length = self.URLString.length - range.location;
-        }
-        else {
-            break;
-        }
-    }
-    
-    if (parameterNames.count == 0) {
-        callback? callback(self.URLString, self.parameters) : NULL;
-        return;
-    }
-    
-    NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
-    NSString *URLString = self.URLString;
-    
-    for (NSString *key in parameters.allKeys) {
-        for (NSString *name in parameterNames) {
-            if ([key isEqualToString:name]) {
-                URLString = [URLString stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"##%@##", name] withString:[NSString stringWithFormat:@"%@", [parameters objectForKey:key]]];
-                [mutableParameters removeObjectForKey:key];
-            }
-        }
-    }
-    
-    callback? callback(URLString, (mutableParameters.count? mutableParameters : NULL) ) : NULL;
 }
 
 @end

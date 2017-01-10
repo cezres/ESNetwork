@@ -52,7 +52,7 @@ typedef void (^ESRequestBlock)(__kindof ESRequest *request);
  */
 @property (assign, nonatomic) BOOL builtinHeaderEnable;
 /**
- 内置的参数舒服有效，默认YES
+ 内置的参数是否有效，默认YES
  */
 @property (assign, nonatomic) BOOL builtinParameterEnable;
 

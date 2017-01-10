@@ -9,7 +9,21 @@
 #import "ESRequest.h"
 #import <UIKit/UIKit.h>
 
+@class ESBaseRequest;
+
+typedef void (^ESBaseRequestBlock)(__kindof ESBaseRequest *request);
+
 @interface ESBaseRequest : ESRequest
+
+@property (assign, nonatomic, readonly) NSInteger responseStatusCode;
+
+@property (strong, nonatomic, readonly) NSDictionary *responseData;
+
+@property (strong, nonatomic, readonly) NSString *errorMsg;
+
+
+- (ESBaseRequest *)startWithCompletionBlock:(ESBaseRequestBlock)completionBlock;
+
 
 #pragma mark - Loading提示
 
@@ -52,13 +66,9 @@
 @property (assign, nonatomic, readonly) BOOL hasNext;
 
 /**
- *  加载下一页数据
+ *  设置下一页分页参数
  */
-- (__kindof ESBaseRequest *)startNextPageWithDelegate:(id<ESRequestDelegate>)delegate;
-
-- (__kindof ESBaseRequest *)startNextPageWithCompletionBlock:(ESRequestBlock)completionBlock;
-
-- (__kindof ESBaseRequest *)startNextPage;
+- (BOOL)nextPage;
 
 
 @end

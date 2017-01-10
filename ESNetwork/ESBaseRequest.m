@@ -20,6 +20,25 @@
 
 @implementation ESBaseRequest
 
+- (ESBaseRequest *)startWithCompletionBlock:(ESBaseRequestBlock)completionBlock {
+    return [super startWithCompletionBlock:completionBlock];
+}
+
+- (NSInteger)responseStatusCode {
+    return [[self.responseObject objectForKey:@"status"] integerValue];
+}
+- (NSDictionary *)responseData {
+    return [self.responseObject objectForKey:@"data"];
+}
+- (NSString *)errorMsg {
+    if (self.error) {
+        return self.error.description;
+    }
+    else {
+        return [self.responseObject objectForKey:@"msg"];
+    }
+}
+
 
 + (instancetype)requestWithLoadingInView:(UIView *)loadingInView {
     ESBaseRequest *request = [super request];
@@ -38,7 +57,7 @@
 
 - (void)willStart {
     [super willStart];
-    [_loadingView showAnimated:YES];
+    [self.loadingView showAnimated:YES];
 }
 
 - (void)completed {
@@ -47,41 +66,22 @@
     _loadingView = NULL;
 }
 
-- (ESBaseRequest *)startNextPageWithDelegate:(id<ESRequestDelegate>)delegate {
-    self.delegate = delegate;
-    return [self startNextPage];
-}
-
-- (ESBaseRequest *)startNextPageWithCompletionBlock:(ESRequestBlock)completionBlock {
-    self.completionBlock = completionBlock;
-    return [self startNextPage];
-}
-
-- (ESBaseRequest *)startNextPage {
+- (BOOL)nextPage {
     if (!self.hasNext) {
-        return self;
+        return NO;
     }
     if (![self.parameters isKindOfClass:[NSDictionary class]]) {
-        return self;
+        return NO;
     }
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)self.parameters];
     [mutableDict setObject:@(self.index + 1) forKey:@"p"];
     self.parameters = mutableDict;
-    [self start];
-    return self;
+    return YES;
 }
 
 - (NSInteger)index {
-    if (!self.responseObject) {
-        return -1;
-    }
-    else if (![self.responseObject isKindOfClass:[NSDictionary class]]) {
-        return -1;
-    }
-    else if ([self.pageKeyPath length] == 0) {
-        return -1;
-    }
-    NSNumber *index = [[self.responseObject valueForKeyPath:self.pageKeyPath] objectForKey:@"index"];
+    NSDictionary *pageDict = self.pageDict;
+    NSNumber *index = [pageDict objectForKey:@"index"];
     if (!index) {
         return -1;
     }
@@ -89,28 +89,33 @@
 }
 
 - (BOOL)hasNext {
-    if (!self.responseObject) {
-        return NO;
-    }
-    else if (![self.responseObject isKindOfClass:[NSDictionary class]]) {
-        return NO;
-    }
-    else if ([self.pageKeyPath length] == 0) {
-        return NO;
-    }
-    NSNumber *next = [[self.responseObject valueForKeyPath:self.pageKeyPath] objectForKey:@"next"];
+    NSDictionary *pageDict = self.pageDict;
+    NSNumber *next = [pageDict objectForKey:@"next"];
     if (!next) {
         return NO;
     }
     return [next boolValue];
 }
 
+- (NSDictionary *)pageDict {
+    if (!self.responseObject) {
+        return NULL;
+    }
+    else if (![self.responseObject isKindOfClass:[NSDictionary class]]) {
+        return NULL;
+    }
+    else if ([self.pageKeyPath length] == 0) {
+        return NULL;
+    }
+    return [self.responseObject valueForKeyPath:self.pageKeyPath];
+}
+
 - (NSString *)pageKeyPath {
     if (!_pageKeyPath) {
-        NSMutableString *keyPath = [NSMutableString string];
+        NSMutableArray *keyPath = [NSMutableArray array];
         BOOL result = [self analysisKeyPath:@"next" forDict:self.responseObject keyPath:keyPath];
         if (result) {
-            _pageKeyPath = [keyPath substringFromIndex:1];
+            _pageKeyPath = [keyPath componentsJoinedByString:@"."];
         }
         else {
             _pageKeyPath = @"";
@@ -119,21 +124,21 @@
     return _pageKeyPath;
 }
 
-- (BOOL)analysisKeyPath:(NSString *)flag forDict:(NSDictionary *)dict keyPath:(NSMutableString *)keyPath {
+- (BOOL)analysisKeyPath:(NSString *)flag forDict:(NSDictionary *)dict keyPath:(NSMutableArray *)keyPath {
     for (NSString *key in [dict allKeys]) {
         id value = [dict objectForKey:key];
         if ([key isEqualToString:flag]) {
             return YES;
         }
         if ([value isKindOfClass:[NSDictionary class]]) {
-            [keyPath appendFormat:@".%@", key];
+            [keyPath addObject:key];
             BOOL result = [self analysisKeyPath:flag forDict:value keyPath:keyPath];
             if (result) {
                 return  result;
             }
         }
     }
-    keyPath = [NSMutableString string];
+    [keyPath removeLastObject];
     return NO;
 }
 

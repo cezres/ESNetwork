@@ -138,17 +138,15 @@ void traverseDirectory(NSString *path, PathCallback block);
 void traverseDirectory(NSString *directorPath, PathCallback block) {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *files = [fileManager contentsOfDirectoryAtPath:directorPath error:nil];
-    if ([files count] > 0) {
-        for (NSString *fileName in files) {
-            NSString *filePath = [NSString stringWithFormat:@"%@/%@", directorPath, fileName];
-            BOOL flag = YES;
-            [fileManager fileExistsAtPath:filePath isDirectory:&flag];
-            if (flag) {
-                traverseDirectory(filePath, block);
-            }
-            else {
-                block(filePath);
-            }
+    for (NSString *fileName in files) {
+        NSString *filePath = [NSString stringWithFormat:@"%@/%@", directorPath, fileName];
+        BOOL flag = YES;
+        [fileManager fileExistsAtPath:filePath isDirectory:&flag];
+        if (flag) {
+            traverseDirectory(filePath, block);
+        }
+        else {
+            block(filePath);
         }
     }
 }
