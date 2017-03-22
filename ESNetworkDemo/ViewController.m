@@ -28,7 +28,7 @@
     [[ESRequestHandler sharedInstance] setValue:@"iOS" forBuiltinParameterField:@"device"];
     
     
-    ESBaseRequest *request = [ESBaseRequest request];
+    ESBaseRequest *request = [ESBaseRequest requestWithLoadingInView:self.view];
     request.URLString = @"/product/{id}";
     request.parameters = @{@"id": @1008611};
     [request startWithCompletionBlock:^(__kindof ESRequest *request) {

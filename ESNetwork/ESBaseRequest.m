@@ -8,6 +8,7 @@
 
 #import "ESBaseRequest.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <objc/message.h>
 
 @interface ESBaseRequest ()
 
@@ -57,12 +58,25 @@
 
 - (void)willStart {
     [super willStart];
-    [self.loadingView showAnimated:YES];
+    
+    if ([self.loadingView respondsToSelector:NSSelectorFromString(@"showAnimated:")]) {
+        ((void (*)(id, SEL, BOOL))objc_msgSend)(self.loadingView, NSSelectorFromString(@"showAnimated:"), YES);
+    }
+    else if ([self.loadingView respondsToSelector:NSSelectorFromString(@"show:")]) {
+        ((void (*)(id, SEL, BOOL))objc_msgSend)(self.loadingView, NSSelectorFromString(@"show:"), YES);
+    }
 }
 
 - (void)completed {
     [super completed];
-    [_loadingView hideAnimated:YES];
+    
+    if ([self.loadingView respondsToSelector:NSSelectorFromString(@"hideAnimated:")]) {
+        ((void (*)(id, SEL, BOOL))objc_msgSend)(self.loadingView, NSSelectorFromString(@"hideAnimated:"), YES);
+    }
+    else if ([self.loadingView respondsToSelector:NSSelectorFromString(@"hide:")]) {
+        ((void (*)(id, SEL, BOOL))objc_msgSend)(self.loadingView, NSSelectorFromString(@"hide:"), YES);
+    }
+    
     _loadingView = NULL;
 }
 
